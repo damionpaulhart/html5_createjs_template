@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8"/>
+
+<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+Remove this if you use the .htaccess -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+<title>EASEL SPRITE</title>
+<meta name="description" content="EASEL SPRITE"/>
+<meta name="author" content="DAMION"/>
+
+<!-- Using this metatag users can't scale the page using pinchIn/out gestures on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+
+<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+
+<style type="text/css">
+        /* Remove margins and HTML scrollbars */
+    body, html {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    #statsPanel {
+        position: absolute;
+        width: 100%;
+        height: 10%;
+        top: 0;
+        opacity: 0.2;
+        background-color: #ffffff;
+        font-size: 1em;
+        font-family: "Arial Black";
+    }
+</style>
+
+<script src="http://code.createjs.com/preloadjs-0.2.0.min.js"></script>
+<script src="http://code.createjs.com/easeljs-0.5.0.min.js"></script>
+
+<script>
+///////////////////////////////////////////////////CONSTANTS
+
+var BASE_WIDTH = 2048,
+        BASE_HEIGHT = 1536,
+        SCALE_X = Math.round((window.innerWidth / BASE_WIDTH) * 1000) / 1000,
+        SCALE_Y = Math.round((window.innerHeight / BASE_HEIGHT) * 1000) / 1000,
+        FONT_SCALE = 250;
+
+/////////////////////////////////////////////////OBJECTS
+
+var stage;
+var preload, images,
+        assetsLoaded = false;
+var hero, spriteSheet, bmpAnimation, bmpAnimation2;
+
+var moveLeft = false;
+var moveRight = false;
+var moveUp = false;
+var moveDown = false;
+
+var ENEMY_LIMIT = 8;
+var ENEMY_SPEED = 16;
+var ENEMY_SPAWN_RATE = 20/100;
+var enemies;
+
+var directionH= ["right", "left"];
+var directionV = ["down", "up"];
+
+var PRIZE_LIMIT = 8;
+var PRIZE_SPAWN_RATE = 98;
+var prizes;
+
+function init() {
+    canvas = document.getElementById("canvas");
+    stage = new createjs.Stage(canvas);
+    stage.regX = BASE_WIDTH / 2;
+    stage.x = window.innerWidth / 2;
+    stage.snapToPixelEnabled = true;
+
+    enemies = new Array();
+    prizes = new Array();
+
+
+    preloadAssets();
+    resizeGame();
+
+    document.onkeydown = onKeyDown;
+    document.onkeyup = onKeyUp;
+
+    window.addEventListener('resize', resizeGame, false);
+    window.addEventListener('orientationchange', resizeGame, false);
+
+    createjs.Ticker.useRAF = true;
+    createjs.Ticker.setFPS(60);
+    createjs.Ticker.addListener(window);
+}
+function preloadAssets() {
+    images = images || {};
+    var manifest = [
+        {src:"http://i.imgur.com/T1wBFWE.png", id:"entities1"},
+        {src:"http://i.imgur.com/HiLrGPd.jpg", id:"bg"},
+        {src:"http://i.imgur.com/MIQRxIv.jpg", id:"bg"},
+        {src:"http://i.imgur.com/gX3un4G.png", id:"money"}
+    ]
+    preload = new createjs.PreloadJS(false);
+    preload.onFileLoad = handleFileLoad;
+    preload.onComplete = handleComplete;
+    preload.loadManifest(manifest);
+}
+function handleFileLoad(o) {
+    if (o.type == "image") {
+        images[o.id] = o.result;
+    }
+}
+function handleComplete(event) {
+    hero = new createjs.Bitmap(images['bg']);
+    hero.scaleX = stage.canvas.width/hero.image.width;
+    hero.scaleY = stage.canvas.height/hero.image.height;
+    hero.regX = hero.image.width / 2;
+    hero.regY = hero.image.height / 2;
+    hero.x = stage.canvas.width/2;
+    hero.y = stage.canvas.height/2;
+    stage.addChild(hero);
+
+    spriteSheet = new createjs.SpriteSheet({
+        images: [images['entities1']],
+        frames: {width:80, height:80, count:24, regX:40, regY:40},
+        animations: {
+            man: [0,3,"man", 6],
+            jesus: [6,9,"jesus", 6]
+        }
+    });
+
+    bmpAnimation = new createjs.BitmapAnimation(spriteSheet);
+    bmpAnimation.gotoAndPlay("man");
+    bmpAnimation.name = "man";
+    bmpAnimation.vX = 16;
+    bmpAnimation.direction = 9;
+    bmpAnimation.scaleX = 5;
+    bmpAnimation.scaleY = 5;
+    bmpAnimation.width=80*bmpAnimation.scaleX;
+    bmpAnimation.height=80*bmpAnimation.scaleY;
+    bmpAnimation.x = bmpAnimation.width/2;
+    bmpAnimation.y = bmpAnimation.height/2;
+    bmpAnimation.currentFrame = 0;
+    stage.addChild(bmpAnimation);
+
+    createEnemies();
+}
+function createEnemies() {
+    for(var i = 0; i <= 4; ++i) {
+    var e = new createjs.BitmapAnimation(spriteSheet);
+    e.gotoAndPlay("jesus");
+    e.name = "jesus" + i;
+    e.directionX = directionH[Math.floor(Math.random()*directionH.length)];
+    e.directionY = directionV[Math.floor(Math.random()*directionV.length)];
+    e.vX = 4;
+    e.scaleX = 5;
+    e.scaleY = 5;
+    e.width=80*e.scaleX;
+    e.height=80*e.scaleY;
+    e.x = Math.random()* stage.canvas.width;
+    e.y = Math.random()*stage.canvas.height;
+    e.currentFrame = 0;
+    enemies.push(e);
+    stage.addChild(e);
+    }
+}
+function createPrize() {
+    if(randRange(0, 100) > PRIZE_SPAWN_RATE && prizes.length < PRIZE_LIMIT) {
+        var r = new createjs.Bitmap(images['money']);
+        r.regX = r.image.width/2;
+        r.regY = r.image.height/2;
+        r.x = randRange(0+r.image.width/20, stage.canvas.width- r.image.width/2);
+        r.y = randRange(0+r.image.height/2, stage.canvas.height-r.image.height/2);
+        r.scaleX= r.scaleY=2.5;
+        prizes.push(r);
+        stage.addChildAt(r,0+1);
+    }
+}
+
+
+function tick(timeElapsed) {
+        var status2 = document.getElementById('statsPanel');
+        status2.innerHTML = "SCORE: <span style='font-weight: 900;'>EMPTY</span>";
+    checkMovement();
+    updateEnemies();
+    createPrize();
+    stage.update();
+}
+function resizeGame() {
+    // keep stage aspect
+    var widthToHeight = 4 / 3;
+    var newWidth = window.innerWidth;
+    var newHeight = window.innerHeight;
+    var newWidthToHeight = newWidth / newHeight;
+
+    //stage.scaleX = newWidth / BASE_WIDTH;
+    //stage.scaleY = newHeight / BASE_HEIGHT;
+
+    if (newWidthToHeight > widthToHeight) { // wider than 4/3
+        newWidth = newHeight * widthToHeight;
+        stage.scaleX = newWidth / BASE_WIDTH;
+        stage.scaleY = newHeight / BASE_HEIGHT;
+    } else {
+        newHeight = newWidth / widthToHeight; // taller than 4/3
+        stage.scaleX = newWidth / BASE_WIDTH;
+        stage.scaleY = newHeight / BASE_HEIGHT;
+    }
+    SCALE_X = Math.round(stage.scaleX * 1000) / 1000;
+    SCALE_Y = Math.round(stage.scaleY * 1000) / 1000;
+    stage.regX = BASE_WIDTH / 2;
+    stage.x = window.innerWidth / 2;
+
+    var statsPanel = document.getElementById('statsPanel');
+    statsPanel.style.fontSize = (newWidth / FONT_SCALE) + 'em';
+}
+function onKeyDown(e) {
+    var e = e || window.event; // if no e, make one
+
+    switch (e.keyCode) {
+        // left
+        case 37:
+            moveLeft = true;
+            moveRight = false;
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+        // up
+        case 38:
+            moveUp = true;
+            moveDown = false;
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+        // right
+        case 39:
+            moveRight = true;
+            moveLeft = false;
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+        // down
+        case 40:
+            moveDown = true;
+            moveUp = false;
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+        case 32:
+            firing = true;
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+    }
+}
+function onKeyUp(e) {
+    var e = e || window.event; // if no e, make one
+    switch (e.keyCode) {
+        case 37:
+            moveLeft = false;
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+        case 38:
+            moveUp = false;
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+        case 39:
+            moveRight = false;
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+        case 40:
+            moveDown = false;
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+        // Space bar for firing
+        case 32:
+            firing = false;
+            doFire();
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+    }
+}
+function checkMovement() {
+    if (moveLeft) {
+        bmpAnimation.x -= bmpAnimation.vX;
+        if (bmpAnimation.x < bmpAnimation.width / 2)
+            bmpAnimation.x = bmpAnimation.width / 2;
+    } else if (moveRight) {
+        bmpAnimation.x += bmpAnimation.vX;
+        if (bmpAnimation.x > canvas.width - bmpAnimation.width / 2)
+            bmpAnimation.x = canvas.width - bmpAnimation.width / 2;
+    }
+    if (moveUp) {
+        bmpAnimation.y -= bmpAnimation.vX;
+        if (bmpAnimation.y < bmpAnimation.height / 2)
+            bmpAnimation.y = bmpAnimation.height / 2;
+    } else if (moveDown) {
+        bmpAnimation.y += bmpAnimation.vX;
+        if (bmpAnimation.y > canvas.height - bmpAnimation.height / 2)
+            bmpAnimation.y = canvas.height - bmpAnimation.height / 2;
+    }
+}
+function updateEnemies() {
+    var loopLimit = enemies.length - 1;
+    for(var i = loopLimit; i >= 0; --i) {
+        moveTo(enemies[i]);
+    }
+}
+function moveTo(sprite){
+    //bmpAnimation2.direction = where;
+    if (sprite.x < sprite.width/2) {
+        sprite.directionX = "right";
+    }
+    if (sprite.x >= stage.canvas.width - sprite.width/2) {
+        sprite.directionX = "left";
+    }
+    if (sprite.y < sprite.height/2) {
+        sprite.directionY = "down";
+    }
+    if (sprite.y >= stage.canvas.height - sprite.height/2) {
+        sprite.directionY = "up";
+    }
+
+    // Moving the sprite based on the direction & the speed
+    if (sprite.directionX == "right") {
+        sprite.x += sprite.vX;
+    }
+    if (sprite.directionX == "left") {
+        sprite.x -= sprite.vX;
+    }
+    if (sprite.directionY == "down") {
+        sprite.y += sprite.vX;
+    }
+    if (sprite.directionY == "up") {
+        sprite.y -= sprite.vX;
+    }
+
+}
+
+function randRange(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+</script>
+</head>
+<body onload="init();" style="text-align: center;">
+<div id="statsPanel"></div>
+<canvas id="canvas" width="2048" height="1536" style="text-align: center;">alternate content
+</canvas>
+</body>
+</html>
