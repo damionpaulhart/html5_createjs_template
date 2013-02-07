@@ -85,6 +85,16 @@ function init() {
     createContent();
     preloadAssets();
 
+    var assetsPath = "assets/";
+    src = assetsPath+"COLLOSUS_20120617.mp3|"+assetsPath+"COLLOSUS_20120617.ogg";
+    // NOTE the "|" character is used by Sound to separate source into distinct files, which allows you to provide multiple extensions for wider browser support
+
+    //createjs.Sound.onLoadComplete = playSound;  // add a callback for when load is completed
+    createjs.Sound.addEventListener("loadComplete", createjs.proxy(playSound,this)); // add an event listener for when load is completed
+    createjs.Sound.registerSound(src);  // register sound, which preloads by default
+
+    statsPanel.innerText = "Waiting for load to complete.";  // letting the user know what's happening// Create a single item to load.
+
     resizeGame();
 
     document.onkeydown = onKeyDown;
@@ -101,18 +111,17 @@ function preloadAssets() {
     images = images || {};
     var manifest = [
         {id:"spaceshark", src:"http://i.imgur.com/JG8AngG.png"}
-    ]
+    ];
    queue = new createjs.LoadQueue(false);
-    queue.addEventListener("fileload", handleFileLoad);
-    queue.addEventListener("complete", handleComplete);
+   queue.addEventListener("fileload", handleFileLoad);
+   queue.addEventListener("complete", handleComplete);
    queue.loadManifest(manifest);
-    queue.load();
-
 }
 function handleFileLoad(o) {
-    alert(o.item.result);
+    // the createjs.Queue object holds results
+    // but lets put them in an Array:
     if (o.item.type == createjs.LoadQueue.IMAGE) {
-        images[o.item.id] = o.item.result;
+        images[o.item.id] = o.item.src;
     }
 }
 function handleComplete(event) {
@@ -258,6 +267,13 @@ function createBackground(){
 function createContent() {
     content = new createjs.Container();
     stage.addChild(content);
+}
+
+function playSound(evt) {
+    if (evt.src == src) {  // note that callback and event listener return the same event
+        soundInstance = createjs.Sound.play(src);  // start playing the sound we just loaded, storing the playing instance
+        displayStatus.innerText = "Playing source: " + evt.src;  // let the user know what we are playing
+    }
 }
 </script>
 </head>
