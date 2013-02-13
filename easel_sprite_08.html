@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- added prizes -->
+<!--  -->
 <html lang="en">
 <head>
 
@@ -12,6 +12,13 @@ Remove this if you use the .htaccess -->
 <title>EASEL SPRITE</title>
 <meta name="description" content="EASEL SPRITE"/>
 <meta name="author" content="DAMION"/>
+<meta property="og:title" content="Man vs Hippy" />
+<meta property="og:type" content="game" />
+<meta property="og:url" content="http://dhart.co/content/manvshippy.html" />
+<meta property="og:image" content="http://www.YourSite.com/image.jpg" />
+<meta property="og:site_name" content="Site Name" />
+<meta property="og:description" content="Enter a description that will attract Facebook users. Use no more than 255 characters." />
+
 
 <!-- Using this metatag users can't scale the page using pinchIn/out gestures on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
@@ -26,21 +33,40 @@ Remove this if you use the .htaccess -->
         margin: 0;
         padding: 0;
         overflow: hidden;
+        background: #fcfff4; /* Old browsers */
+        background: -moz-linear-gradient(top,  #fcfff4 0%, #dfe5d7 40%, #b3bead 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfff4), color-stop(40%,#dfe5d7), color-stop(100%,#b3bead)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* IE10+ */
+        background: linear-gradient(to bottom,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 ); /* IE6-9 */
     }
     #statsPanel {
         position: absolute;
         width: 100%;
         height: 10%;
         top: 0;
-        opacity: 0.2;
+        opacity: 0.5;
         background-color: #ffffff;
         font-size: 1em;
         font-family: "Arial Black";
+        vertical-align: middle;
+    }
+    #statsPanel span {
+        width:50%;
+        height:100%;
+        position:relative;
+        display: inline-block;
+        vertical-align: middle;
     }
 </style>
 
-<script src="http://code.createjs.com/preloadjs-0.2.0.min.js"></script>
-<script src="http://code.createjs.com/easeljs-0.5.0.min.js"></script>
+<script type="text/javascript" src="assets/easeljs-NEXT.min.js"></script>
+<script type="text/javascript" src="assets/preloadjs-0.3.0.min.js"></script>
+<script type="text/javascript" src="src/soundjs/Sound.js"></script>
+<script type="text/javascript" src="src/soundjs/WebAudioPlugin.js"></script>
+<script type="text/javascript" src="src/soundjs/HTMLAudioPlugin.js"></script>
 
 <script>
 ///////////////////////////////////////////////////CONSTANTS
@@ -49,11 +75,12 @@ var BASE_WIDTH = 2048,
         BASE_HEIGHT = 1536,
         SCALE_X = Math.round((window.innerWidth / BASE_WIDTH) * 1000) / 1000,
         SCALE_Y = Math.round((window.innerHeight / BASE_HEIGHT) * 1000) / 1000,
-        FONT_SCALE = 250;
+        FONT_SCALE = 275,
+        SCORE = 0;
 
 /////////////////////////////////////////////////OBJECTS
 
-var stage;
+var canvas, stage, mask, statusPanel;
 var preload, images,
         assetsLoaded = false;
 var hero, spriteSheet, bmpAnimation, bmpAnimation2;
@@ -76,45 +103,55 @@ var PRIZE_SPAWN_RATE = 98;
 var prizes;
 
 function init() {
+    if (!createjs.Sound.initializeDefaultPlugins()) {
+        document.getElementById("error").style.display = "block";
+        return;
+    }
+
     canvas = document.getElementById("canvas");
     stage = new createjs.Stage(canvas);
-    stage.regX = BASE_WIDTH / 2;
-    stage.x = window.innerWidth / 2;
     stage.snapToPixelEnabled = true;
 
+    statsPanel = document.getElementById("statsPanel");
     enemies = new Array();
     prizes = new Array();
 
-
+    // mask oticeable slows the FPS.
+    //////createStageMask();
     preloadAssets();
-    resizeGame();
+    loadSounds();
+    handleResize();
 
     document.onkeydown = onKeyDown;
     document.onkeyup = onKeyUp;
 
-    window.addEventListener('resize', resizeGame, false);
-    window.addEventListener('orientationchange', resizeGame, false);
+    window.addEventListener('resize', handleResize, false);
+    window.addEventListener('orientationchange', handleResize, false);
 
     createjs.Ticker.useRAF = true;
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addListener(window);
 }
+function createStageMask(){
+    mask = new createjs.Shape();
+    stage.addChild(mask);
+}
 function preloadAssets() {
     images = images || {};
     var manifest = [
-        {src:"http://i.imgur.com/T1wBFWE.png", id:"entities1"},
-        {src:"http://i.imgur.com/HiLrGPd.jpg", id:"bg"},
-        {src:"http://i.imgur.com/MIQRxIv.jpg", id:"bg"},
-        {src:"http://i.imgur.com/gX3un4G.png", id:"money"}
-    ]
-    preload = new createjs.PreloadJS(false);
-    preload.onFileLoad = handleFileLoad;
-    preload.onComplete = handleComplete;
-    preload.loadManifest(manifest);
+        {id:"entities1", src:"http://i.imgur.com/T1wBFWE.png"},
+        {id:"bg", src:"http://i.imgur.com/HiLrGPd.jpg"},
+        {id:"bg", src:"http://i.imgur.com/MIQRxIv.jpg"},
+        {id:"money", src:"http://i.imgur.com/gX3un4G.png"}
+    ];
+    queue = new createjs.LoadQueue(false);
+    queue.addEventListener("fileload", handleFileLoad);
+    queue.addEventListener("complete", handleComplete);
+    queue.loadManifest(manifest);
 }
 function handleFileLoad(o) {
-    if (o.type == "image") {
-        images[o.id] = o.result;
+    if (o.item.type == createjs.LoadQueue.IMAGE) {
+        images[o.item.id] = o.item.src;
     }
 }
 function handleComplete(event) {
@@ -152,6 +189,17 @@ function handleComplete(event) {
 
     createEnemies();
 }
+function loadSounds() {
+    var assetsPath = "assets/";
+    src = assetsPath+"COLLOSUS_20120617.mp3|"+assetsPath+"COLLOSUS_20120617.ogg";
+    // NOTE the "|" character is used by Sound to separate source into distinct files, which allows you to provide multiple extensions for wider browser support
+
+    //createjs.Sound.onLoadComplete = playSound;  // add a callback for when load is completed
+    createjs.Sound.addEventListener("loadComplete", createjs.proxy(playSound,this)); // add an event listener for when load is completed
+    createjs.Sound.registerSound(src);  // register sound, which preloads by default
+
+    statsPanel.innerText = "Waiting for load to complete.";  // letting the user know what's happening// Create a single item to load.
+}
 function createEnemies() {
     for(var i = 0; i <= 4; ++i) {
     var e = new createjs.BitmapAnimation(spriteSheet);
@@ -180,20 +228,23 @@ function createPrize() {
         r.y = randRange(0+r.image.height/2, stage.canvas.height-r.image.height/2);
         r.scaleX= r.scaleY=2.5;
         prizes.push(r);
-        stage.addChildAt(r,0+1);
+        stage.addChildAt(r,2);
     }
 }
 
-
 function tick(timeElapsed) {
-        var status2 = document.getElementById('statsPanel');
-        status2.innerHTML = "SCORE: <span style='font-weight: 900;'>EMPTY</span>";
+    collide();
+    //statusPanel.innerHTML = '<div>MAN vs HIPPY</div><div>$<span style="font-weight: 900;">' + SCORE + '</span></div>';
+    var scoreColor;
+    if (SCORE < 0){scoreColor="red";}
+    else {scoreColor = "black";}
+    statsPanel.innerHTML = '<span style="float:left;color:#456789; background:#ccc;">MAN vs HIPPY</span><span style="float:right;color:' + scoreColor + ';">$' + SCORE + '</span>';
     checkMovement();
     updateEnemies();
     createPrize();
     stage.update();
 }
-function resizeGame() {
+function handleResize() {
     // keep stage aspect
     var widthToHeight = 4 / 3;
     var newWidth = window.innerWidth;
@@ -205,20 +256,29 @@ function resizeGame() {
 
     if (newWidthToHeight > widthToHeight) { // wider than 4/3
         newWidth = newHeight * widthToHeight;
-        stage.scaleX = newWidth / BASE_WIDTH;
-        stage.scaleY = newHeight / BASE_HEIGHT;
+        //stage.scaleX = newWidth / BASE_WIDTH;
+        //stage.scaleY = newHeight / BASE_HEIGHT;
+        canvas.style.width = newWidth + 'px';
+        canvas.style.height = newHeight + 'px';
     } else {
         newHeight = newWidth / widthToHeight; // taller than 4/3
-        stage.scaleX = newWidth / BASE_WIDTH;
-        stage.scaleY = newHeight / BASE_HEIGHT;
+        //stage.scaleX = newWidth / BASE_WIDTH;
+        //stage.scaleY = newHeight / BASE_HEIGHT;
+        canvas.style.width = newWidth + 'px';
+        canvas.style.height = newHeight + 'px';
     }
     SCALE_X = Math.round(stage.scaleX * 1000) / 1000;
     SCALE_Y = Math.round(stage.scaleY * 1000) / 1000;
-    stage.regX = BASE_WIDTH / 2;
-    stage.x = window.innerWidth / 2;
+    //stage.regX = BASE_WIDTH / 2;
+    //stage.x = window.innerWidth / 2;
 
-    var statsPanel = document.getElementById('statsPanel');
+    statsPanel.style.width = newWidth + 'px';
+    statsPanel.style.left = ((window.innerWidth / 2)- newWidth/2) + 'px';
     statsPanel.style.fontSize = (newWidth / FONT_SCALE) + 'em';
+
+    //mask.graphics.clear();
+   // mask.graphics.beginFill("#000").drawRect(0, 0, stage.canvas.width,stage.canvas.height);
+    //stage.mask = mask;
 }
 function onKeyDown(e) {
     var e = e || window.event; // if no e, make one
@@ -347,9 +407,48 @@ function moveTo(sprite){
     }
 
 }
+function collide() {
+    var numEnemies = enemies.length - 1;
+    var numPrizes = prizes.length - 1;
+    var curEnemy, curPrize;
+
+    for(var i = numEnemies; i >= 0; --i) {
+        curEnemy = enemies[i];
+        if((!curEnemy.hasCollided) &&(distance(curEnemy, bmpAnimation) < 150)) {
+            SCORE -= 10;
+        }
+
+        // check bullet/rock collision
+        for(var j = numPrizes; j >= 0; --j) {
+            curPrize = prizes[j];
+
+            if( distance(curPrize, bmpAnimation) < 200)  {
+                //content.removeChild(curRock) ;
+                stage.removeChild(prizes[j]); // using [] seems to stop enemies from 'sticking'
+                //createExplosion(curRock.x, curRock.y);
+                SCORE += 10;
+                prizes.splice(j, 1);
+            }
+        }
+        numPrizes = prizes.length - 1;
+    }
+}
+
+function playSound(evt) {
+    if (evt.src == src) {  // note that callback and event listener return the same event
+        soundInstance = createjs.Sound.play(src);  // start playing the sound we just loaded, storing the playing instance
+        displayStatus.innerText = "Playing source: " + evt.src;  // let the user know what we are playing
+    }
+}
 
 function randRange(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
+}
+function distance(obj1, obj2) {
+    var difx = obj2.x - obj1.x;
+    var dify = obj2.y - obj1.y;
+
+    return Math.sqrt( (difx*difx) + (dify*dify) );
 }
 </script>
 </head>
@@ -357,5 +456,11 @@ function randRange(min, max) {
 <div id="statsPanel"></div>
 <canvas id="canvas" width="2048" height="1536" style="text-align: center;">alternate content
 </canvas>
+<div id="error">
+    <h1>Sorry!</h1>
+    <p>SoundJS is not currently supported in your browser.</p>
+    <p>Please <a href="http://github.com/CreateJS/SoundJS/issues" target="_blank">log a bug</a>
+        with the device and browser you are using.  Thank you.</p>
+</div>
 </body>
 </html>
