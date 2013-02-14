@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5276da93-0dbf-4e4b-8adc-574025e0dd71" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/easel_sprite_08.html" />
+      <change type="DELETED" beforePath="D:\googleappengine\html5_createjs_template\assets\COLLOSUS_20120617.mp3" afterPath="" />
+      <change type="DELETED" beforePath="D:\googleappengine\html5_createjs_template\assets\Cash Register Cha Ching-SoundBible.com-184076484.mp3" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easel_sprite_00_2.html" afterPath="$PROJECT_DIR$/easel_sprite_00_2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easel_sprite_01.html" afterPath="$PROJECT_DIR$/easel_sprite_01.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easel_sprite_02.html" afterPath="$PROJECT_DIR$/easel_sprite_02.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easel_sprite_03.html" afterPath="$PROJECT_DIR$/easel_sprite_03.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easel_sprite_04.html" afterPath="$PROJECT_DIR$/easel_sprite_04.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easel_sprite_05.html" afterPath="$PROJECT_DIR$/easel_sprite_05.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easel_sprite_06.html" afterPath="$PROJECT_DIR$/easel_sprite_06.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easel_sprite_07.html" afterPath="$PROJECT_DIR$/easel_sprite_07.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easel_template_00.html" afterPath="$PROJECT_DIR$/easel_template_00.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easel_sprite_08.html" afterPath="$PROJECT_DIR$/easel_sprite_08.html" />
     </list>
     <ignored path="easel_sprite.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,7 +28,7 @@
       <file leaf-file-name="easel_sprite_00.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/easel_sprite_00.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="13" selection-start="3158" selection-end="3158" vertical-scroll-proportion="-11.115385">
+            <state line="115" column="23" selection-start="3511" selection-end="3511" vertical-scroll-proportion="-63.423077">
               <folding>
                 <marker date="1360292175703" expanded="false" signature="3432:3449" placeholder="..." />
               </folding>
@@ -43,13 +36,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="easel_sprite_08.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="easel_sprite_08.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/easel_sprite_08.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="0" selection-start="1014" selection-end="1014" vertical-scroll-proportion="45.115383">
+            <state line="432" column="63" selection-start="14630" selection-end="14630" vertical-scroll-proportion="0.6426966">
               <folding>
-                <marker date="1360709156282" expanded="false" signature="8724:8766" placeholder="..." />
-                <marker date="1360709156282" expanded="false" signature="8800:8818" placeholder="..." />
+                <element signature="e#3901#4651#0" expanded="false" />
+                <element signature="e#4677#5077#0" expanded="false" />
+                <element signature="e#5105#5205#0" expanded="false" />
+                <element signature="e#5237#6378#0" expanded="false" />
+                <element signature="e#6404#6967#0" expanded="false" />
+                <element signature="e#6991#7456#0" expanded="false" />
+                <element signature="e#8238#8749#0" expanded="false" />
+                <marker date="1360808967244" expanded="false" signature="8508:8550" placeholder="..." />
+                <marker date="1360808967244" expanded="false" signature="8584:8602" placeholder="..." />
+                <element signature="e#8774#10144#0" expanded="false" />
+                <element signature="e#10167#11083#0" expanded="false" />
+                <element signature="e#11104#11896#0" expanded="false" />
+                <element signature="e#11922#12692#0" expanded="false" />
+                <element signature="e#12718#12837#0" expanded="false" />
+                <element signature="e#12861#13630#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -58,7 +64,7 @@
       <file leaf-file-name="easel_sprite_00_2.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/easel_sprite_00_2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="0" selection-start="2650" selection-end="2650" vertical-scroll-proportion="10.461538">
+            <state line="98" column="17" selection-start="3465" selection-end="3465" vertical-scroll-proportion="5.230769">
               <folding>
                 <marker date="1360709156288" expanded="false" signature="4778:4795" placeholder="..." />
               </folding>
@@ -66,10 +72,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="easel_sprite_07.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="easel_template_00.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/easel_template_00.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="0" selection-start="17" selection-end="146" vertical-scroll-proportion="-1.3076923">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="easel_sprite_07.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/easel_sprite_07.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="236" column="0" selection-start="8549" selection-end="8549" vertical-scroll-proportion="0.5962838">
+            <state line="83" column="0" selection-start="3560" selection-end="3560" vertical-scroll-proportion="13.730769">
               <folding>
                 <element signature="tag#style#0;tag#head#0;tag#html#0" expanded="false" />
                 <element signature="e#4869#4931#0" expanded="false" />
@@ -80,7 +95,7 @@
                 <element signature="e#7498#8061#0" expanded="false" />
                 <element signature="e#8085#8547#0" expanded="false" />
                 <marker date="1360708945631" expanded="false" signature="8846:8888" placeholder="..." />
-                <marker date="1360708945631" expanded="true" signature="8922:8940" placeholder="..." />
+                <marker date="1360708945631" expanded="false" signature="8922:8940" placeholder="..." />
                 <element signature="e#9092#10462#0" expanded="false" />
                 <element signature="e#10485#11401#0" expanded="false" />
                 <element signature="e#11422#12214#0" expanded="false" />
@@ -126,17 +141,17 @@
         <option value="$PROJECT_DIR$/easel_sprite_02.html" />
         <option value="$PROJECT_DIR$/easel_sprite_01.html" />
         <option value="$PROJECT_DIR$/easel_sprite_07.html" />
-        <option value="$PROJECT_DIR$/easel_sprite_08.html" />
         <option value="$PROJECT_DIR$/easel_sprite_00_2.html" />
+        <option value="$PROJECT_DIR$/easel_sprite_08.html" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="1592" />
+    <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1296" />
-    <option name="height" value="816" />
+    <option name="width" value="1616" />
+    <option name="height" value="886" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -205,9 +220,9 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="options.lastSelected" value="project.propVCSSupport.VCSs.Git" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../spaceshark/spaceshark.html" />
-    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/GitHub/PortableGit_64179092f39f5dacb60dcab147fb4d04266c0eae/bin/git.exe" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PublishConfig">
     <servers>
@@ -279,15 +294,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1592" y="-8" width="1296" height="816" extended-state="6" />
+    <frame x="-8" y="-8" width="1616" height="886" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31707317" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3168044" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23419774" sideWeight="0.68292683" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13320464" sideWeight="0.6831956" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -355,7 +370,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="6" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -380,114 +395,54 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/easel_sprite_00_1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="28" selection-start="4880" selection-end="4880" vertical-scroll-proportion="0.037694015">
-          <folding>
-            <marker date="1360292175704" expanded="false" signature="3560:3577" placeholder="..." />
-          </folding>
-        </state>
+        <state line="156" column="28" selection-start="4880" selection-end="4880" vertical-scroll-proportion="0.037694015" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resizeHandler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="56" selection-end="56" vertical-scroll-proportion="0.035639413">
-          <folding />
-        </state>
+        <state line="6" column="0" selection-start="56" selection-end="56" vertical-scroll-proportion="0.035639413" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/easel_sprite_05.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="6" selection-start="65" selection-end="65" vertical-scroll-proportion="0.11308204">
-          <folding>
-            <marker date="1360708378509" expanded="false" signature="6405:6447" placeholder="..." />
-            <marker date="1360708378509" expanded="false" signature="6481:6499" placeholder="..." />
-          </folding>
-        </state>
+        <state line="3" column="6" selection-start="65" selection-end="65" vertical-scroll-proportion="0.11308204" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/easel_sprite_06.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="6" selection-start="65" selection-end="65" vertical-scroll-proportion="0.11308204">
-          <folding>
-            <marker date="1360708270213" expanded="false" signature="7064:7106" placeholder="..." />
-            <marker date="1360708270213" expanded="false" signature="7140:7158" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/easel_template_00.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="16" selection-end="16" vertical-scroll-proportion="0.037694015">
-          <folding />
-        </state>
+        <state line="3" column="6" selection-start="65" selection-end="65" vertical-scroll-proportion="0.11308204" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/easel_sprite_02.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="30" selection-start="199" selection-end="199" vertical-scroll-proportion="0.30155212">
-          <folding>
-            <marker date="1360708763327" expanded="false" signature="5980:5997" placeholder="..." />
-          </folding>
-        </state>
+        <state line="8" column="30" selection-start="199" selection-end="199" vertical-scroll-proportion="0.30155212" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/easel_sprite_04.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="21" selection-start="37" selection-end="37" vertical-scroll-proportion="0.037694015">
-          <folding>
-            <marker date="1360708540828" expanded="false" signature="5703:5720" placeholder="..." />
-          </folding>
-        </state>
+        <state line="1" column="21" selection-start="37" selection-end="37" vertical-scroll-proportion="0.037694015" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/easel_sprite_03.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="19" selection-start="108" selection-end="108" vertical-scroll-proportion="0.26385808">
-          <folding>
-            <marker date="1360708540813" expanded="true" signature="5144:5161" placeholder="..." />
-          </folding>
-        </state>
+        <state line="7" column="19" selection-start="108" selection-end="108" vertical-scroll-proportion="0.26385808" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/easel_sprite_01.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="39" selection-start="535" selection-end="535" vertical-scroll-proportion="0.60310423">
-          <folding>
-            <marker date="1360708821090" expanded="false" signature="3812:3829" placeholder="..." />
-          </folding>
-        </state>
+        <state line="16" column="39" selection-start="535" selection-end="535" vertical-scroll-proportion="0.60310423" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/easel_sprite_00.html">
+    <entry file="file://$PROJECT_DIR$/easel_template_00.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="13" selection-start="3158" selection-end="3158" vertical-scroll-proportion="-11.115385">
-          <folding>
-            <marker date="1360292175703" expanded="false" signature="3432:3449" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/easel_sprite_08.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="1014" selection-end="1014" vertical-scroll-proportion="45.115383">
-          <folding>
-            <marker date="1360709156282" expanded="false" signature="8724:8766" placeholder="..." />
-            <marker date="1360709156282" expanded="false" signature="8800:8818" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/easel_sprite_00_2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="0" selection-start="2650" selection-end="2650" vertical-scroll-proportion="10.461538">
-          <folding>
-            <marker date="1360709156288" expanded="false" signature="4778:4795" placeholder="..." />
-          </folding>
+        <state line="2" column="0" selection-start="17" selection-end="146" vertical-scroll-proportion="-1.3076923">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/easel_sprite_07.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="236" column="0" selection-start="8549" selection-end="8549" vertical-scroll-proportion="0.5962838">
+        <state line="83" column="0" selection-start="3560" selection-end="3560" vertical-scroll-proportion="13.730769">
           <folding>
             <element signature="tag#style#0;tag#head#0;tag#html#0" expanded="false" />
             <element signature="e#4869#4931#0" expanded="false" />
@@ -498,7 +453,7 @@
             <element signature="e#7498#8061#0" expanded="false" />
             <element signature="e#8085#8547#0" expanded="false" />
             <marker date="1360708945631" expanded="false" signature="8846:8888" placeholder="..." />
-            <marker date="1360708945631" expanded="true" signature="8922:8940" placeholder="..." />
+            <marker date="1360708945631" expanded="false" signature="8922:8940" placeholder="..." />
             <element signature="e#9092#10462#0" expanded="false" />
             <element signature="e#10485#11401#0" expanded="false" />
             <element signature="e#11422#12214#0" expanded="false" />
@@ -508,6 +463,47 @@
             <element signature="e#13968#14787#0" expanded="false" />
             <element signature="e#15172#15233#0" expanded="false" />
             <element signature="e#15264#15383#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/easel_sprite_00.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="23" selection-start="3511" selection-end="3511" vertical-scroll-proportion="-63.423077">
+          <folding>
+            <marker date="1360292175703" expanded="false" signature="3432:3449" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/easel_sprite_00_2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="98" column="17" selection-start="3465" selection-end="3465" vertical-scroll-proportion="5.230769">
+          <folding>
+            <marker date="1360709156288" expanded="false" signature="4778:4795" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/easel_sprite_08.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="432" column="63" selection-start="14630" selection-end="14630" vertical-scroll-proportion="0.6426966">
+          <folding>
+            <element signature="e#3901#4651#0" expanded="false" />
+            <element signature="e#4677#5077#0" expanded="false" />
+            <element signature="e#5105#5205#0" expanded="false" />
+            <element signature="e#5237#6378#0" expanded="false" />
+            <element signature="e#6404#6967#0" expanded="false" />
+            <element signature="e#6991#7456#0" expanded="false" />
+            <element signature="e#8238#8749#0" expanded="false" />
+            <marker date="1360808967244" expanded="false" signature="8508:8550" placeholder="..." />
+            <marker date="1360808967244" expanded="false" signature="8584:8602" placeholder="..." />
+            <element signature="e#8774#10144#0" expanded="false" />
+            <element signature="e#10167#11083#0" expanded="false" />
+            <element signature="e#11104#11896#0" expanded="false" />
+            <element signature="e#11922#12692#0" expanded="false" />
+            <element signature="e#12718#12837#0" expanded="false" />
+            <element signature="e#12861#13630#0" expanded="false" />
           </folding>
         </state>
       </provider>

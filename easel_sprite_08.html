@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <!--  -->
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
 
 <meta charset="utf-8"/>
@@ -73,16 +75,15 @@ Remove this if you use the .htaccess -->
 
 var BASE_WIDTH = 2048,
         BASE_HEIGHT = 1536,
-        SCALE_X = Math.round((window.innerWidth / BASE_WIDTH) * 1000) / 1000,
-        SCALE_Y = Math.round((window.innerHeight / BASE_HEIGHT) * 1000) / 1000,
         FONT_SCALE = 275,
         SCORE = 0;
 
 /////////////////////////////////////////////////OBJECTS
 
-var canvas, stage, mask, statusPanel;
-var preload, images,
-        assetsLoaded = false;
+var canvas, stage, statusPanel;
+var preload, images, assetsLoaded = false;
+var bgMusic, sndHit, soundInstance, soundInstanceHit;
+
 var hero, spriteSheet, bmpAnimation, bmpAnimation2;
 
 var moveLeft = false;
@@ -99,7 +100,7 @@ var directionH= ["right", "left"];
 var directionV = ["down", "up"];
 
 var PRIZE_LIMIT = 8;
-var PRIZE_SPAWN_RATE = 98;
+var PRIZE_SPAWN_PERCENT = 2;
 var prizes;
 
 function init() {
@@ -113,11 +114,10 @@ function init() {
     stage.snapToPixelEnabled = true;
 
     statsPanel = document.getElementById("statsPanel");
-    enemies = new Array();
-    prizes = new Array();
+    images = [];
+    enemies = [];
+    prizes = [];
 
-    // mask oticeable slows the FPS.
-    //////createStageMask();
     preloadAssets();
     loadSounds();
     handleResize();
@@ -132,17 +132,11 @@ function init() {
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addListener(window);
 }
-function createStageMask(){
-    mask = new createjs.Shape();
-    stage.addChild(mask);
-}
 function preloadAssets() {
-    images = images || {};
     var manifest = [
         {id:"entities1", src:"http://i.imgur.com/T1wBFWE.png"},
-        {id:"bg", src:"http://i.imgur.com/HiLrGPd.jpg"},
         {id:"bg", src:"http://i.imgur.com/MIQRxIv.jpg"},
-        {id:"money", src:"http://i.imgur.com/gX3un4G.png"}
+        {id:"money", src:"http://i.imgur.com/840vqyZ.png"}
     ];
     queue = new createjs.LoadQueue(false);
     queue.addEventListener("fileload", handleFileLoad);
@@ -188,17 +182,7 @@ function handleComplete(event) {
     stage.addChild(bmpAnimation);
 
     createEnemies();
-}
-function loadSounds() {
-    var assetsPath = "assets/";
-    src = assetsPath+"COLLOSUS_20120617.mp3|"+assetsPath+"COLLOSUS_20120617.ogg";
-    // NOTE the "|" character is used by Sound to separate source into distinct files, which allows you to provide multiple extensions for wider browser support
-
-    //createjs.Sound.onLoadComplete = playSound;  // add a callback for when load is completed
-    createjs.Sound.addEventListener("loadComplete", createjs.proxy(playSound,this)); // add an event listener for when load is completed
-    createjs.Sound.registerSound(src);  // register sound, which preloads by default
-
-    statsPanel.innerText = "Waiting for load to complete.";  // letting the user know what's happening// Create a single item to load.
+    assetsLoaded = true;
 }
 function createEnemies() {
     for(var i = 0; i <= 4; ++i) {
@@ -220,7 +204,7 @@ function createEnemies() {
     }
 }
 function createPrize() {
-    if(randRange(0, 100) > PRIZE_SPAWN_RATE && prizes.length < PRIZE_LIMIT) {
+    if(randRange(0, 100) < PRIZE_SPAWN_PERCENT && prizes.length < PRIZE_LIMIT) {
         var r = new createjs.Bitmap(images['money']);
         r.regX = r.image.width/2;
         r.regY = r.image.height/2;
@@ -231,7 +215,17 @@ function createPrize() {
         stage.addChildAt(r,2);
     }
 }
+function loadSounds() {
+    var assetsPath = "assets/";
+    bgMusic = assetsPath+"DAMION - ManVsHippy - 01.mp3|"+assetsPath+"DAMION - ManVsHippy - 01.ogg";
+    sndHit = assetsPath+"Ching.mp3|"+assetsPath+"Ching.ogg";
+    // NOTE the "|" character is used by Sound to separate source into distinct files, which allows you to provide multiple extensions for wider browser support
 
+    //createjs.Sound.onLoadComplete = playSound;  // add a callback for when load is completed
+    createjs.Sound.addEventListener("loadComplete", createjs.proxy(playSound,this)); // add an event listener for when load is completed
+    createjs.Sound.registerSound(bgMusic);  // register sound, which preloads by default
+    createjs.Sound.registerSound(sndHit,"asdf", 1);
+}
 function tick(timeElapsed) {
     collide();
     //statusPanel.innerHTML = '<div>MAN vs HIPPY</div><div>$<span style="font-weight: 900;">' + SCORE + '</span></div>';
@@ -241,7 +235,7 @@ function tick(timeElapsed) {
     statsPanel.innerHTML = '<span style="float:left;color:#456789; background:#ccc;">MAN vs HIPPY</span><span style="float:right;color:' + scoreColor + ';">$' + SCORE + '</span>';
     checkMovement();
     updateEnemies();
-    createPrize();
+    if (assetsLoaded) {createPrize();}
     stage.update();
 }
 function handleResize() {
@@ -418,7 +412,7 @@ function collide() {
             SCORE -= 10;
         }
 
-        // check bullet/rock collision
+        // check avatar collision
         for(var j = numPrizes; j >= 0; --j) {
             curPrize = prizes[j];
 
@@ -426,6 +420,7 @@ function collide() {
                 //content.removeChild(curRock) ;
                 stage.removeChild(prizes[j]); // using [] seems to stop enemies from 'sticking'
                 //createExplosion(curRock.x, curRock.y);
+                createjs.Sound.play("asdf", createjs.Sound.INTERRUPT_ANY);
                 SCORE += 10;
                 prizes.splice(j, 1);
             }
@@ -435,9 +430,8 @@ function collide() {
 }
 
 function playSound(evt) {
-    if (evt.src == src) {  // note that callback and event listener return the same event
-        soundInstance = createjs.Sound.play(src);  // start playing the sound we just loaded, storing the playing instance
-        displayStatus.innerText = "Playing source: " + evt.src;  // let the user know what we are playing
+    if (evt.src == bgMusic) {  // note that callback and event listener return the same event
+        soundInstance = createjs.Sound.play(bgMusic,createjs.Sound.INTERRUPT_ANY,0,0,-1,1,0);  // start playing the sound we just loaded, storing the playing instance
     }
 }
 
